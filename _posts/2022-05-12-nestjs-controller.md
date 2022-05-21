@@ -1,5 +1,5 @@
 ---
-title: Controller란
+title: Controller란 - 1
 description: 들어오는 요청(request)를 받고 처리된 결과를 응답(response)으로 돌려주는 인터페이스 역할
 categories:
 - NestJS
@@ -39,6 +39,17 @@ $ nest g resource [name]
 ```typescript
 @Get('he*lo')
 getHello(): string {
+  return this.appService.getHello();
+}
+```
+
+# 요청 객체
+클라이언트는 요청을 보내면서 종종 서버가 원하는 정보를 함께 전송한다. Nest는 요청과 함께 전달되는 데이터를 **핸들러**(요청을 처리할 구성요소, 컨트롤러가 이 역할을 함)가 다룰 수 있는 객체로 변환한다. 이렇게 변환된 객체는 **`@Req() 데코레이터`**를 이용하여 다룰 수 있다.
+
+```typescript
+@Get()
+getHello(@Req() req: Request): string {
+  console.log(req);
   return this.appService.getHello();
 }
 ```
