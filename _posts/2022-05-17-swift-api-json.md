@@ -1,55 +1,129 @@
+---
+title: API-JSON 사용
+description: Swift로 API를 통신하여 JSON을 불러오자.
+categories:
+- Swift
+tags:
+- Swift
+- SwiftUI
+- iOS
+- UIKit
+- API
+- JSON
+---
 
-# 데이터 생성
+# API
+기본적으로 앱을 개발하면서 API를 자주 사용하게 된다. 이번엔 Swift에선 어떻게 통신을 하는지 알아보자. 예시로 날씨를 가져오는 코드를 작성해보자.
+
+# 사용법
+각 단계별로 정리를 해보았다.
+## URL 및 URLSession 생성
 ```swift
-struct Response: Codable {
-    var results: [Result]
-}
-
-struct Result: Codable {
-    var trackId: Int
-    var trackName: String
-    var collectionName: String
-}
-```
-
-# URL 생성
-```swift
-guard let url = URL(string: "https://itunes.apple.com/search?term=taylor+swift&entity=song") else {
-    print("Invalid URL")
-    return
-}
-```
-
-# 데이터 Fetch(Get)
-```swift
-do {
-    let (data, _) = try await URLSession.shared.data(from: url) // Data 객체를 반환한다
-
-    if let decodedResponse = try? JSONDecoder().decode(Response.self, from: data) {
-        results = decodedResponse.results
+func performRequest(urlString: String) {
+    guard let url = URL(string: urlString) else { // 주소가 잘못된 주소일 수 있기에 옵셔널 타입이다
+        print("Invalid URL")
+        return
     }
-    // more code to come
-} catch {
-    print("Invalid data")
+    let session = URLSession(configuration: .default)
 }
 ```
 
-# 데이터 Request(Post)
+## 데이터 가져오기
 ```swift
-guard let encoded = try? JSONEncoder().encode(order) else {
-    print("Failed to encode order")
-    return
+func doRequest(url: URL, session: URLSession) {
+    let task = session.dataTask(with: url, completionHandler: self.handle)
+    task.resume()
 }
 
-let url = URL(string: "https://reqres.in/api/cupcakes")!
-var request = URLRequest(url: url)
-request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-request.httpMethod = "POST"
+func handle(data: Data?, response: URLResponse?, error: Error?) {
+    if error != nil {
+        print(error!)
+        return
+    }
 
-do {
-    let (data, _) = try await URLSession.shared.upload(for: request, from: encoded)
-    // handle the result    
-} catch {
-    print("Checkout failed.")
+    if let safeData = data {
+        self.parseJSON(weather: safeData)
+    }
+}
+```
+
+## 데이터 구조 생성
+```swift
+struct WeatherData: Decodable {
+    let name: String
+    let main: Main
+    let weather: [Weather]
+}
+
+struct Main: Decodable {
+    let temp: Double
+}
+
+struct Weather: Decodable {
+    let description: String
+}
+```
+
+## JSON Parsing
+```swift
+func parseJSON(weatherData: Data) {
+    let decoder = JSONDecoder()
+    do {
+        let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
+        print(decodedDate.main.temp)
+        print(decodedDate.weather[0].description)
+    } catch {
+        print(error)
+    }
+}
+```
+
+# 총 코드
+```swift
+struct WeatherManager {
+    let weatherURL = "https://api.openweathermap.org/data/..."
+
+    func fetchWeather(cityName: String) {
+        let urlString = "\(self.weatherURL)&q=\(cityName)"
+        performRequest(urlString: urlString)
+    }
+
+    func performRequest(urlString: String) {
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            return
+        }
+        let session = URLSession(configuration: .default)
+    }
+
+    func doRequest(url: URL, session: URLSession) {
+        let task = session.dataTask(with: url, completionHandler: self.handle)
+        task.resume()
+    }
+
+    func handle(data: Data?, response: URLResponse?, error: Error?) {
+        if error != nil {
+            print(error!)
+            return
+        }
+
+        if let safeData = data {
+            self.parseJSON(weather: safeData)
+        }
+    }
+}
+
+struct WeatherData: Decodable {
+    let name: String
+    let main: Main
+    let weather: [Weather]
+}
+
+struct Main: Decodable {
+    let temp: Double
+}
+
+struct Weather: Decodable {
+    let description: String
 }
 ```
