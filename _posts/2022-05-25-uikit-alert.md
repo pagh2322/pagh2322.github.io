@@ -7,33 +7,40 @@ tags:
 - UIKit
 - iOS
 - Alert
+- TextField
 ---
 
-# UIAlertController 생성
+# Alert 창 띄우기
+## UIAlertController 생성
+**preferredStyle 패러미터**로 경고창을 `ActionSheet` 혹은 `Alert` 방식으로 띄울 수 있다.
+
 ```swift
 let alert = UIAlertController(title: "Alert title", message: "", preferredStyle: .alert)
 ```
 
-# UIAlertAction 생성
+## UIAlertAction 생성 및 추가
+**style 패러미터**는 `cancel`, `default` 혹은 `destructive` 총 3가지가 있다.
+
 ```swift
 let action = UIAlertAction(title: "Action title", style: .default) { action in
     // code that happens once the user clicks
     print("Success")
 }
+alert.addAction(action)
 ```
 
-# TextField 추가(선택사항)
+## TextField 추가(선택사항)
 ```swift
 alert.addTextField { alertTextField in
     alertTextField.plcaholder = "Create new item"
 }
 ```
 
-# Action 추가 및 띄우기
-```swift
-alert.addAction(action)
+## Alert 띄우기
+창을 띄우기 실행하고 싶은 코드가 없기 때문에 **completion 패러미터**를 `nil`로 주었다
 
-present(alert, animated: true, completion: nil)
+```swift
+self.present(alert, animated: true, completion: nil)
 ```
 
 # 총 코드
@@ -47,14 +54,13 @@ present(alert, animated: true, completion: nil)
         // code that happens once the user clicks
         print(textField.text)
     }
+    alert.addAction(action)
 
     alert.addTextField { alertTextField in
         alertTextField.plcaholder = "Create new item"
         textField = alertTextField
     }
 
-    alert.addAction(action)
-
-    present(alert, animated: true, completion: nil)
+    self.present(alert, animated: true, completion: nil)
 }
 ```

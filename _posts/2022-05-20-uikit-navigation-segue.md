@@ -18,7 +18,7 @@ Storyboard에서 각 화면에 대응하는 `UIViewController`가 있어야 한�
 ```swift
 class FirstVC: UIViewController {
     @IBAction func buttonPressed(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "firstToSecond", sender: self) // 여기서 sender는 Segue를 초기화함으로써 새로운 화면을 보여주려는 기존 객체이다
+        self.performSegue(withIdentifier: "firstToSecond", sender: nil) // 여기서 sender는 메시지를 전달하는 역할을 하는 객체이다
     }
 }
 
@@ -39,7 +39,7 @@ class SecondVC: UIViewController {
 ```swift
 class FirstVC: UIViewController {
     @IBAction func buttonPressed(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "firstToSecond", sender: self) // 여기서 sender는 Segue를 초기화함으로써 새로운 화면을 보여주려는 기존 객체이다
+        self.performSegue(withIdentifier: "firstToSecond", sender: nil)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

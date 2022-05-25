@@ -1,16 +1,17 @@
 ---
-title: LifeCycle
-description: UIKit에서 앱의 LifeCycle.
+title: ViewController LifeCycle
+description: UIKit에서 ViewController의 LifeCycle.
 categories:
 - UIKit
 tags:
 - UIKit
 - iOS
+- ViewController
 - LifeCycle
 ---
 
 # 생명 주기
-순서대로 앱(뷰)이 생성이 되면 실행이 되는 함수들을 나열을 해보았다.
+순서대로 ViewController가 생성이 되면 실행이 되는 함수들을 나열을 해보았다.
 
 # viewDidLoad
 뷰가 생성이 될 때 **딱 한 번** 실행이 된다.
