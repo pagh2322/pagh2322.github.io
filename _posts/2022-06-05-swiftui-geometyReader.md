@@ -42,3 +42,74 @@ struct GeometryProxy {
 }
 ```
 
+1. size: 지오메트리 리더의 크기를 반환한다
+2. safeAreaInsets: 지오메르티 리더가 사용된 환경에서의 safe area에 대한 크기를 반환
+3. frame(in:): 특정 좌표계를 기준으로 한 프레임 정보를 제공
+4. subscript(anchor:): 자식 뷰에서 anchorPreference 수식어를 이용해 제공한 좌표나 프레임을 지오메트리 리더의 좌표계를 기준으로 다시 반환하여 사용하는 첨자이다. 이때 매개 변수의 타입은 `CGRect` 혹은  `CGPoint`이다.
+
+## CoordinateSpace
+열거형 타입이며, 세 가지 값 중 하나를 지정하면 그 좌표 공간에 관한 정보를 반환한다.
+
+```swift
+enum CoordinateSpace {
+    case global
+    case local
+    case named(AnyHashable)
+}
+```
+
+1. global: 화면 전체 영역(윈도우 bounds)을 기준으로 한 좌표 정보
+2. local: 지오메트리 리더 bounds를 기준으로 한 좌표 정보
+3. named: 명시적으로 이름을 할당한 공간을 기준으로 한 좌표 정보
+
+### 예제
+```swift
+var body: some View {
+    HStack {
+        Rectangle()
+            .fill(.yellow)
+            .frame(width: 30)
+
+        VStack {
+            Rectangle()
+                .fill(.blue)
+                .frame(height: 200)
+
+            GeometryReader {
+                self.contents(geometry: $0)
+            }
+            .background(.green)
+            .border(.red, width: 4)
+        }
+        .coordinateSpace(name: "VStackCS")
+    }
+    .coordinateSpace(name: "HStackCS")
+}
+
+func contents(geometry g: GeometryProxy) -> some View {
+    VStack {
+        Text("Local")
+            .bold()
+        Text(stringFormat(for: g.frame(in: .local).origin))
+            .padding(.bottom)
+
+        Text("Global")
+            .bold()
+        Text(stringFormat(for: g.frame(in: .global).origin))
+            .padding(.bottom)
+
+        Text("Named VStackCS")
+            .bold()
+        Text(stringFormat(for: g.frame(in: .named("VStackCS")).origin))
+            .padding(.bottom)
+
+        Text("Named HStackCS")
+            .bold()
+        Text(stringFormate(for: g.frame(in: .named("HStackCS")).origin))
+    }
+}
+
+func stringFormat(for point: CGPoing) -> String {
+    String(format: "(x: %.f, y: %.f)", arguments: [point.x, point.y])
+}
+```
