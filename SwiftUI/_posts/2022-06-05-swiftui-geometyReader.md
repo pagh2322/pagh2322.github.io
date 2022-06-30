@@ -12,7 +12,7 @@ tags:
 # GeometryReader
 > A container view that defines its content as a function of its own size and coordinate space.
 
-지오메트리 리더는 **자식 뷰**에 부모 뷰와 기기에 대한 `크기` 및 `좌표계` 정보를 전달하는 기능을 수행하는 컨테이너 뷰이다.
+`GeometryReader`는 **자식 뷰**에 부모 뷰와 기기에 대한 `크기` 및 `좌표계` 정보를 전달하는 기능을 수행하는 컨테이너 뷰이다.
 
 ## 생성자
 `GeometryProxy` 타입의 정보를 받아 콘텐츠를 정의하는 함수를 전달 받는다.
