@@ -182,3 +182,6 @@ func makeUIView(context: Context) -> FSCalendar {
     // ...
 }
 ```
+
+# 참고 링크
+[[iOS] SwiftUI에서는 delegate를 어떻게 채택할까? : Coordinator](https://sweetdev.tistory.com/447)
