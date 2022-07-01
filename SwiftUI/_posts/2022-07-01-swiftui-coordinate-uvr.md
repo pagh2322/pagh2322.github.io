@@ -134,6 +134,8 @@ struct CalendarView: UIViewRepresentable {
 ## class Coordinator
 CalendarView 구조체 안에 Coordinator라는 클래스를 추가하였다. 채택할 delegate의 이름을 적어주는 것도 잊지말자.
 
+그리고 Coordinator는 **context**에 의해 아래 **makeCoordinator** 메소드를 통해 생성된다.
+
 아래 코드에선 FSCalendar의 delegate 메소드들을 적어주었다.
 
 ```swift
