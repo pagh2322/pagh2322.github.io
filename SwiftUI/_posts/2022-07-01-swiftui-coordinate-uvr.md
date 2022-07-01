@@ -12,7 +12,7 @@ tags:
 ---
 
 # 기존에 보면 좋은 내용
-[UIViewRepresentable - SwiftUI에서 UIKit을 사용](./2022-05-18-swiftui-uiviewrepresentable.md)
+[UIViewRepresentable - SwiftUI에서 UIKit을 사용](https://pagh2322.github.io/swiftui/2022/05/18/swiftui-uiviewrepresentable/)
 
 # Delegate
 UIKit에서는 많은 예제 코드들이 delegate을 사용한다. 
