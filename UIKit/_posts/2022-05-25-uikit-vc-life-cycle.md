@@ -1,13 +1,13 @@
 ---
-title: ViewController LifeCycle
-description: UIKit에서 ViewController의 LifeCycle.
+title: ViewController Life Cycle
+description: UIKit에서 ViewController의 라이프 사이클.
 categories:
 - UIKit
 tags:
 - UIKit
 - iOS
 - ViewController
-- LifeCycle
+- Life Cycle
 ---
 
 # 생명 주기
