@@ -28,3 +28,6 @@ tags:
 7. UIKit은 `app delegate`애서 `application(_:didFinishLaunchingWithOptions:)`메서드를 호출한다.
 
 위 과정이 끝나면 시스템에선 `app delegate`혹은 `scene delegate`을 사용하여 앱의 UI를 보여주고 라이프 사이클을 관리한다.
+
+# 참고 링크
+[애플 공식 문서](https://developer.apple.com/documentation/uikit/app_and_environment/responding_to_the_launch_of_your_app/about_the_app_launch_sequence)
