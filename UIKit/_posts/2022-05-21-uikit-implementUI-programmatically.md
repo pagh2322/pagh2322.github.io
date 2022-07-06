@@ -16,6 +16,20 @@ tags:
 
 마지막으로 하나씩 Storyboard에서 드래그 드랍으로 UI요소들을 생성하고 연결하는 과정이 귀찮기도 했다.
 
+## 삭제
+**Main.storyboard**파일을 삭제한 뒤, **Info.plist**에서 관련 사항들을 삭제해준다.
+
+그리고 iOS의 버전이 13 이상이면 **`SceneDelegate`**의 `scene(_:willConnectTo:options)`메서드에서, 이하라면 **`AppDelegate`**의 `application(_:didFinishLaunchingWithOptions)`메서드에서 아래와 같은 코드를 작성해 준다.
+
+```swift
+guard let windowScene = (scene as? UIWindowScene) else { return }
+self.window = UIWindow(windowScene: sindowScene)
+let rootVC = ViewController() // 첫 화면의 컨트롤러
+
+self.window?.rootViewController = rootVC
+self.window?.makeKeyAndVisible()
+```
+
 # 추가하기
 UI요소를 만들고 원하는 frame을 설정한 뒤, 해당 부모 뷰에다 넣어준다는 코드를 작성하면 끝난다
 
@@ -45,7 +59,6 @@ class SomeViewController: UIViewController {
 
 ```swift
 class ButtonViewController: UIViewController {
-
     var label = UILabel()
 
     override func viewDidLoad() {
@@ -88,3 +101,9 @@ class OriginViewController: UIViewController {
     }
 }
 ```
+
+# 추가
+뷰들의 배치는 **frame**혹은 **auto layout**방식으로 구현을 할 수 있다. 디바이스에 다양한 상황을 고려해서 **auto layout**방식을 사용하는 것이 권장이 된다.
+
+# 참고 링크
+[[iOS][Swift] - 스토리보드 없이 코드로만 UI 구현하기 (SceneDelegate에서 window설정)](https://velog.io/@lina0322/iOSSwift-스토리보드-없이-코드로만-UI-구현하기-SceneDelegate에서-window설정)
