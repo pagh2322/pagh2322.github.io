@@ -111,6 +111,17 @@ struct WeatherManager {
             self.parseJSON(weather: safeData)
         }
     }
+
+    func parseJSON(weatherData: Data) {
+        let decoder = JSONDecoder()
+        do {
+            let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
+            print(decodedDate.main.temp)
+            print(decodedDate.weather[0].description)
+        } catch {
+            print(error)
+        }
+    }
 }
 
 struct WeatherData: Decodable {
@@ -125,5 +136,37 @@ struct Main: Decodable {
 
 struct Weather: Decodable {
     let description: String
+}
+```
+
+# 다른 예시
+
+```swift
+class APIManger {
+    static let shared = APIManager()
+
+    func fetchData(completion: @escaping (Result<[String], Error>) -> Void) {
+        guard let url = URL(string: "\(API_URL)") else { return }
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
+            guard let data = data, error == nil else { return }
+
+            do {
+                let results = try JSONDecoder().decode(String.self, from: data)
+                completion(.success(results.results))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+}
+
+API.shared.fetchData { results in
+    switch results {
+    case .success(let movies):
+        pirnt(movies)
+    case .failure(let error):
+        print(error.localizedDescription)
+    }
 }
 ```
